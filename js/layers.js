@@ -54,6 +54,18 @@ addLayer("a", {
                 player.a.points = player.a.points.add(1)
             }
         },
+        15: 
+        {
+            name: "05. SJ",
+            tooltip: "get upgrade 06",
+            done() {
+                if (hasUpgrade('j', 16)) return true
+            },
+            onComplete() {
+                player.a.points = player.a.points.add(1)
+            }
+        },
+
 
 
 }, 
@@ -79,6 +91,8 @@ addLayer("j", {
         if (hasUpgrade('j', 14)) mult = mult.times(upgradeEffect('j', 14))
         if (hasUpgrade('j', 15)) mult = mult.times(4)
         if (hasMilestone('j', 0)) mult = mult.times(3)
+            if (hasMilestone('sj', 0)) mult = mult.times(2.5)
+
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -124,6 +138,11 @@ addLayer("j", {
             title: "05. J surplus",
             cost: new Decimal(50),
         },
+        16: {
+            description: "Unlock a new layer",
+            title: "06. i",
+            cost: new Decimal(1025),
+        },
         },
         challenges: {
             11: {
@@ -144,5 +163,52 @@ addLayer("j", {
         }
     },  
 
+   
+)
+
+addLayer("sj", {
+    name: "SJP", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "SJ", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#0000bb",
+    requires: new Decimal(1200), // Can be a function that takes requirement increases into account
+    resource: "Super-J points", // Name of prestige currency
+    baseResource: "J points", // Name of resource prestige is based on
+    baseAmount() {return player.j.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.3, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "s", description: "S: Reset for Super-J points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    upgrades: {
+        11: {
+            description: "2x eggs again",
+            title: "07. What is a super-j",
+            cost: new Decimal(1),
+        },
+        },
+        milestones: {
+            0: {
+                requirementDescription: "1 SJP",
+                effectDescription: "x2 eggs & x2.5 J point",
+                done() { return player.sj.points.gte(1) },
+            }
+        },
+        layerShown() {
+            return hasAchievement('a', 15)
+        },
+    },  
    
 )

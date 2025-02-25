@@ -12,13 +12,15 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.00-0",
-	name: "release",
+	num: "1.00-1",
+	name: "super j",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>1.00-0</h3><br>
-		released game<br>endgame 2500 eggs`
+		released game<br>endgame 2500 eggs
+		<h3>1.00-1</h3><br>
+		added super j`
 
 let winText = `fart`
 
@@ -45,6 +47,9 @@ function getPointGen() {
  	if (hasUpgrade('j', 12)) gain = gain.times(1.672)
 	if (hasUpgrade('j', 13)) gain = gain.times(upgradeEffect('j', 13))
 	if (hasChallenge('j', 11)) gain = gain.times(5)
+	if (hasUpgrade('sj', 11)) gain = gain.times(2)
+	if (hasMilestone('sj', 0)) gain = gain.times(2)
+
 
 	return gain
 }
@@ -59,7 +64,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("2500"))
+	return player.points.gte(new Decimal("48949219284"))
 }
 
 
